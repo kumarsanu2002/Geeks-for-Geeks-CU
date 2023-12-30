@@ -1,0 +1,17 @@
+@media  screen and (min-width:767px) {
+    .eventSlide {
+        position: relative;
+        overflow: hidden;
+        perspective: 1000px;
+    }
+    
+    .eventSlide__desc{
+        transform: rotateY(90deg);
+        transition:all .3s ease-in-out;
+    }
+    
+    .eventSlide:hover .eventSlide__desc{
+        transform:rotateY(0deg)
+    }
+    
+    }

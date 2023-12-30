@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Poppins:wght@400;500;600&display=swap');
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.suggestion-input {
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
+}
+
+.suggestion-button {
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.glassmorphism {
+  @apply rounded-xl border border-gray-500 bg-slate-100 dark:border-gray-200 dark:bg-black/20 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur p-5;
+}
+
+.glassmorphism-input {
+  @apply rounded-xl border outline-none border-gray-500 bg-transparent shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur p-2;
+}
+
+
+

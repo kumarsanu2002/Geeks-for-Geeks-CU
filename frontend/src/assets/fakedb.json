@@ -1,0 +1,32 @@
+[
+    {
+        "username": "john_doe",
+        "blogs": [
+            {
+                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "likes": 10,
+                "comments": 5
+            }
+        ]
+    },
+    {
+        "username": "jane_doe",
+        "blogs": [
+            {
+                "text": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                "likes": 15,
+                "comments": 7
+            }
+        ]
+    },
+    {
+        "username": "bob_smith",
+        "blogs": [
+            {
+                "text": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                "likes": 20,
+                "comments": 0
+            }
+        ]
+    }
+]
