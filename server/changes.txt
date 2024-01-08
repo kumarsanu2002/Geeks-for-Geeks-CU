@@ -1,0 +1,9 @@
+1) Added Get all blogs route to display the blogs.
+
+2) Added get all contests route
+
+3) Added get all past competitions route.
+
+4) Added get all past events route
+
+5) change of naming convention, task -> suggestion
