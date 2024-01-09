@@ -5,7 +5,15 @@
 3. Now,start frontend server by npm run dev
 
    #FOR SERVER SIDE
-4. cd server
-5. npm init
-6. npm install express mongoose cors nodemon
-7. now start server by -- npm start
+1) Install the following dependencies in order to run this project:
+   
+"npm i express bcrypt mongoose cors dotenv jsonwebtoken cookie-parser nodemon"
+
+3) Create a global .env file and include the following in it:
+   
+            "PORT = xxxx"
+            "MONGO_URI = xxxx"
+            "NODE_ENV = development || build || etc"
+5) Go to terminal and type the following command and press enter:
+   
+            "npm run dev"
