@@ -10,10 +10,10 @@ const Login = () => {
   const[email , setEmail] = useState()
   const[password , setPassword] = useState()
   const navigate = useNavigate()
-
+  const apiKey = "https://gfgcu.onrender.com/api/v1";
   const handleSubmit = (e) =>{
      e.preventDefault()
-     axios.post('http://localhost:8000/login',{email,password})
+     axios.post(`${apiKey}/users/login`,{email,password})
     .then(result => {console.log(result)
       if(result.data === "Success"){
         navigate('/home') //using navigate we will directly navigate to login page after registration

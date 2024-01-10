@@ -1,0 +1,1 @@
+1) when logging in with wrong details, the response is getting as 400 bad request, but in front end nothing is happening right after the login button press. 
