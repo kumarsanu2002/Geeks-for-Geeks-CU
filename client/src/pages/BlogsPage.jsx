@@ -1,16 +1,43 @@
 import Layout from "../components/layouts/Layout";
 // fake data for now, later fetch it from the data base
 import Blogs from "../assets/fakedb.json";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useState } from "react";
+import { UserContext } from "../contexts/userContext";
+import axios from "axios";
 
 const BlogsPage = () => {
   const [blogs, setBlogs] = useState([]);
+  const [description,setDescription] = useState("");
+  const {setUser, user} = useContext(UserContext);
 
   useEffect(() => {
     // fetch the blogs from the api
     setBlogs(Blogs);
   });
+
+  
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!user) {
+      alert("Please Login First");
+      return;
+    }
+    if (!description) {
+      alert("Can not submit blank suggestion!");
+      return;
+    }
+
+    try {
+      const response = await axios.post("http://localhost:8000/api/v1/blog/new", {
+        description: description
+      });
+      console.log(response.data); // Handle the response data
+    } catch (error) {
+      console.error(error); // Handle any errors
+    }
+  };
 
  
   // console.log(blogs);
@@ -102,9 +129,10 @@ const BlogsPage = () => {
                   type="text"
                   placeholder={"Write your review here:"}
                   className={`dark:text-black rounded p-1 w-96 outline outline-green-700 dark:outline-none mr-1 `}
-                  
+                  value={description}
+                  onChange={(e)=>setDescription(e.target.value)}
                 />
-                  <button className="bg-gfg-green text-white hover:bg-custom-dark dark:bg-custom-dark-2 dark:text-white w-13 px-4 rounded h-8 dark:hover:bg-gfg-green dark:hover:text-black font-bold hover: transf">
+                  <button className="bg-gfg-green text-white hover:bg-custom-dark dark:bg-custom-dark-2 dark:text-white w-13 px-4 rounded h-8 dark:hover:bg-gfg-green dark:hover:text-black font-bold hover: transf" onClick={handleSubmit}>
                     POST
                   </button>
                 </form>

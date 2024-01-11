@@ -40,6 +40,8 @@ import Profile from './pages/Profile';
 
 // ThemeProvide for dark and light theme
 import { ThemeProvider } from './contexts/theme';
+import UserContextProvider from './contexts/userContext';
+
 import EditProfile from './pages/EditProfile';
 
 
@@ -61,11 +63,12 @@ function App() {
     },[themeMode])
 
   return (
-    <BrowserRouter>
+    <UserContextProvider>
+       <BrowserRouter>
       <ThemeProvider value={{themeMode, darkTheme, lightTheme}}>
        
       <Routes>
-        <Route path="/" element={<Login/>}/>
+        <Route path="/login" element={<Login/>}/>
         <Route path="/home" element={<HomePage/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path="/profile/edit-profile" element={<EditProfile/>}/>
@@ -79,6 +82,7 @@ function App() {
       </Routes>
       </ThemeProvider>
     </BrowserRouter>
+    </UserContextProvider>
   )
 }
 

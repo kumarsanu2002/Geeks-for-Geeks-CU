@@ -2,27 +2,34 @@ import Layout from "../components/layouts/Layout";
 import Register from "../assets/authentication-image/Register.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useState } from "react";
-
+import { useContext, useState } from "react";
+import { UserContext } from "../contexts/userContext";
 
 const Login = () => {
 
   const[email , setEmail] = useState()
   const[password , setPassword] = useState()
   const navigate = useNavigate()
-  const apiKey = "https://gfgcu.onrender.com/api/v1";
+  const apiKey = "https://gfgcu.onrender.com";
+  const {user,setUser} = useContext(UserContext);
+
   const handleSubmit = (e) =>{
      e.preventDefault()
-     axios.post(`${apiKey}/users/login`,{email,password})
-    .then(result => {console.log(result)
-      if(result.data === "Success"){
-        navigate('/home') //using navigate we will directly navigate to login page after registration
-      } 
-      else{
-        alert("Need To Register First OR Wrong Password")
+     axios.post(`${apiKey}/users/login`,{email,password}).then(res=>{
+      console.log(res);
+     })   
+     .catch(error => {
+      // handle login error
+      if (error.response.status === 400) {
+         alert('Invalid login details');
+      } else {
+         console.log('Error:', error);
       }
-    }) 
-    .catch(err=>console.log(err))
+     });
+
+     setUser(true);
+     navigate("/home");
+
   }
 
 

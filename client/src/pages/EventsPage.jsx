@@ -1,10 +1,11 @@
-import {useEffect, useRef, useState } from "react";
+import {useContext, useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import Slider from "../components/Slider";
 import Layout from "../components/layouts/Layout";
 import Carousel from "../components/Carousel";
 import axios from "axios";
 import Event from "../assets/images/past_events.png";
+import { UserContext } from "../contexts/userContext";
 
 const EventsPage = () => {
   // Delete this data and pass the props in this page of the past events. //
@@ -36,13 +37,27 @@ const EventsPage = () => {
 
  // Suggestion part
  const[suggestion , setSuggestion] = useState("")
+  const {setUser, user} = useContext(UserContext);
 
  const handleSubmit = (e) =>{
      e.preventDefault()
-    alert("Your suggestion has been submitted.")
-    axios.post('http://localhost:8000/profile',{suggestion:suggestion})
-   .then(result => console.log(result)) 
-   .catch(err=>console.log(err))
+
+    if(!user)
+    {
+      alert("Please login first to submit your suggestion!")
+      return;
+    }
+
+     if(!suggestion){
+      alert("Can not submit blank suggestion!")  
+      return;
+    }
+
+     axios.post('https://gfgcu.onrender.com/api/v1/task/new',suggestion)
+     .then(result => console.log(result)) 
+     .catch(err=>console.log(err))
+
+     alert("Your suggestion has been submitted.")
  }
 
 
@@ -103,18 +118,6 @@ const EventsPage = () => {
             </h1>
             <div className="flex my-4 flex-col">
               <p>Send your feedback regarding the events you have attended.</p>
-
-              <div className="my-6">
-                <p className="font-bold text-lg my-4">Applicable Roles:</p>
-
-                <ul>
-                  <li>1. Code Rusher</li>
-                  <li>2. Event Manager</li>
-                  <li>3. Content Writer</li>
-                </ul>
-              </div>
-
-
 
               <form onSubmit={handleSubmit} >
                 <div className="flex flex-row">
