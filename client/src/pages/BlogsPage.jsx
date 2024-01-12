@@ -13,8 +13,16 @@ const BlogsPage = () => {
 
   useEffect(() => {
     // fetch the blogs from the api
-    setBlogs(Blogs);
-  });
+    axios.get("http://localhost:8000/api/v1/blog/all")
+      .then(response => {
+        console.log(response.data.all); // JSON data from the backend
+         // Update the blogs state with the fetched data
+         setBlogs(response.data.all)
+      })
+      .catch(error => {
+        console.error(error); // Handle any errors
+      });
+  }, []);
 
   
 
@@ -34,10 +42,14 @@ const BlogsPage = () => {
         description: description
       });
       console.log(response.data); // Handle the response data
+      
     } catch (error) {
       console.error(error); // Handle any errors
     }
   };
+// console.log(blogs);
+
+
 
  
   // console.log(blogs);
@@ -59,19 +71,16 @@ const BlogsPage = () => {
 
           <ul className="p-2 pt-8 dark:text-black">
             {/* only limited reviews */}
-            {blogs.slice(0, 3).map((user) => (
-              <li key={user.username}>
-                <ul key={user.username}>
-                  {user.blogs.map((blog) => (
+            {blogs.map((blog) => (
                     <li
                       key={blog.username}
                       className="bg-custom-grey border p-4 m-4 rounded"
                     >
                       <h2 className="text-blue-950 font-bold text-l">
-                        {user.username}
+                        {blog.user}
                       </h2>
                       <div className="pl-4">
-                        <p>{blog.text}</p>
+                        <p>{blog.description}</p>
 
                         <div className="text-right mt-6 flex flex-col md:flex-row">
                           <span className="flex flex-row-reverse">
@@ -102,9 +111,6 @@ const BlogsPage = () => {
                       </div>
                     </li>
                   ))}
-                </ul>
-              </li>
-            ))}
           </ul>
           <div className="text-center sm:text-right px-4">
             <button className="text-black hover:text-white hover:bg-gfg-green border-2 border-green-800 rounded-md p-3">
