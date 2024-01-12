@@ -11,38 +11,29 @@ import linkedIn from "../assets/icons/linkedin.svg";
 import gmail from "../assets/icons/envelop.svg";
 import qr from "../assets/events-img/event-img-1.jpg";
 import Slider from "../components/Slider";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 
 gsap.registerPlugin(ScrollTrigger); // Register the ScrollTrigger plugin
 
 const HomePage = () => {
-  const blogs = [
-    {
-      id: 1,
-      name: "John",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, aspernatur!",
-    },
-    {
-      id: 2,
-      name: "Kevin",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, aspernatur!",
-    },
-    {
-      id: 3,
-      name: "Kevin",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, aspernatur!",
-    },
-    {
-      id: 4,
-      name: "Kevin",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, aspernatur!",
-    },
-    {
-      id: 5,
-      name: "Kevin",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, aspernatur!",
-    },
-  ];
+  const [blogs, setBlogs] = useState([]);
+  
+
+
+  useEffect(() => {
+    // fetch the blogs from the api
+    axios.get("http://localhost:8000/api/v1/blog/all")
+      .then(response => {
+        // JSON data from the backend
+         // Update the blogs state with the fetched data
+         setBlogs(response.data.all)
+      })
+      .catch(error => {
+        console.error(error); // Handle any errors
+      });
+  }, []);
 
   return (
 
@@ -65,17 +56,7 @@ const HomePage = () => {
         {/* Blogs Section */}
         <section className="text-center px-2 py-5 md:text-left md:p-[30px] dark:bg-white text-black ">
           <h1 className="font-bold text-2xl sm:text-3xl my-7">Blog Spot</h1>
-          <div className="flex justify-center items-center gap-4 font-[500] text-[darkBlue] text-base capitalize md:justify-end">
-            <a className="" href="#">
-              Update
-            </a>
-            <a className="" href="#">
-              Correction
-            </a>
-            <a className="" href="#">
-              Read More
-            </a>
-          </div>
+          
 
           {/* Blogs */}
           <div className="text-left my-5 flex flex-col gap-5 dark:text-black">
@@ -87,9 +68,9 @@ const HomePage = () => {
                   className="px-2 py-2 bg-white rounded-md shadow-sm md:p-5 dark:bg-custom-grey"
                 >
                   <h2 className="text-[darkBlue] font-semibold text-base">
-                    {blog.name}
+                    {blog.user}
                   </h2>
-                  <p className="px-4 text-sm">{blog.desc}</p>
+                  <p className="px-4 text-sm">{blog.description}</p>
                 </div>
               );
             })}

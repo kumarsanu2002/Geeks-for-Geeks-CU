@@ -9,29 +9,20 @@ import { UserContext } from "../contexts/userContext";
 
 const EventsPage = () => {
   // Delete this data and pass the props in this page of the past events. //
-  const [events, setEvents] = useState([
-    {
-      id: 1,
-      title: "First Offline Meet",
-      content:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eaque, tenetur! Et repellendus eveniet, dolor dolores accusantium minus ipsum in, quisquam natus quae sequi repellat? Eum quia, numquam id officiis accusamus repellat provident. Soluta cum assumenda sint rerum facilis illo laboriosam accusantium possimus odio dignissimos pariatur dolore a fuga natus, repellendus eius doloremque dolorum ipsam quae corrupti deleniti. Magni, at impedit?",
-      image: Event,
-    },
-    {
-      id: 2,
-      title: "Orientation Session",
-      content:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eaque, tenetur! Et repellendus eveniet, dolor dolores accusantium minus ipsum in, quisquam natus quae sequi repellat? Eum quia, numquam id officiis accusamus repellat provident. Soluta cum assumenda sint rerum facilis illo laboriosam accusantium possimus odio dignissimos pariatur dolore a fuga natus, repellendus eius doloremque dolorum ipsam quae corrupti deleniti. Magni, at impedit?",
-      image: Event,
-    },
-    {
-      id: 3,
-      title: "Example session",
-      content:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eaque, tenetur! Et repellendus eveniet, dolor dolores accusantium minus ipsum in, quisquam natus quae sequi repellat? Eum quia, numquam id officiis accusamus repellat provident. Soluta cum assumenda sint rerum facilis illo laboriosam accusantium possimus odio dignissimos pariatur dolore a fuga natus, repellendus eius doloremque dolorum ipsam quae corrupti deleniti. Magni, at impedit?",
-      image: Event,
-    },
-  ]);
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    // fetch the blogs from the api
+    axios.get("http://localhost:8000/api/v1/pastEvents/all")
+      .then(response => {
+        // JSON data from the backend
+         // Update the blogs state with the fetched data
+        setEvents(response.data.all)
+      })
+      .catch(error => {
+        console.error(error); // Handle any errors
+      });
+  }, []);
 
 
 
@@ -80,7 +71,7 @@ const EventsPage = () => {
             Past Events
           </h1>
           <div className="flex flex-col relative justify-center">
-            {events.map((event, index) => {
+            {events.slice(0,3).map((event, index) => {
               const isOdd = index % 2 !== 0;
 
               return (
@@ -97,12 +88,12 @@ const EventsPage = () => {
                       {event.title}
                     </h3>
                     <p className="text-sm sm:text-lg dark:text-black text-justify cursor-pointer">
-                      {event.content}
+                      {event.description}
                     </p>
                   </div>
 
                   <div className="slider flex m-auto w-full sm:w-1/2 h-1/2 relative">
-                    <Carousel />
+                    <img src={event.img_url} alt="event image" className="px-4 rounded-md"/>
                   </div>
                 </div>
               );
