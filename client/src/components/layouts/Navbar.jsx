@@ -60,7 +60,7 @@ const Navbar = () => {
   return (
     <nav className="p-3 dark:bg-custom-dark-2 bg-custom-grey shadow mf:flex mf:items-center mf:justify-between">
       <div className="flex justify-between items-center">
-        <Link className="flex flex-row" to="/home">
+        <Link className="flex flex-row" to="/">
           <img src={gfgLogo} alt="GeeksforGeeks" />
           <span className="flex flex-col mx-3">
             <span className="sm:text-2xl text-sm font-bold dark:text-slate-200">

@@ -36,19 +36,17 @@ export const MYBLOG = async (req, res, next) => {
   
 // get all blogs
 
-export const ALLBLOGS = async(req,res,next)=>
-{
-    try{
-        const all = await blog.find();
-        res.status(200).json({
-            success:true,
-            all,
-        })
-    }catch(error)
-    {
-        next(error);
-    }
-}
+export const ALLBLOGS = async (req, res, next) => {
+  try {
+    const all = await blog.find();
+    res.status(200).json({
+      success: true,
+      all, // getting all blogs
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 
 
