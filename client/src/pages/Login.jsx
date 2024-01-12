@@ -10,8 +10,8 @@ const Login = () => {
   const[email , setEmail] = useState()
   const[password , setPassword] = useState()
   const navigate = useNavigate()
-  const apiKey = "https://gfgcu.onrender.com";
-  const {user,setUser} = useContext(UserContext);
+  const apiKey = "http://localhost:8000/api/v1";
+  const {user,setUser,login} = useContext(UserContext);
 
   const handleSubmit = (e) =>{
      e.preventDefault()
@@ -28,6 +28,7 @@ const Login = () => {
      });
 
      setUser(true);
+     login();
      navigate("/");
 
   }

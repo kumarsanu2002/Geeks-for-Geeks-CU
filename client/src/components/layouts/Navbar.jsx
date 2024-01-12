@@ -14,7 +14,7 @@ const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [auth, setAuth] = useState(false);
-  const {user, setUser} = useContext(UserContext);
+  const {user, setUser,logout} = useContext(UserContext);
   const nav = useNavigate();
   const mobileview = () => {
     setOpenMenu(!openMenu);
@@ -52,6 +52,7 @@ const Navbar = () => {
   const handleSubmit = (e) =>{
     e.preventDefault()
     setUser(false);
+    logout();
     alert("Successfully logged out");
     nav("/login");
   }
