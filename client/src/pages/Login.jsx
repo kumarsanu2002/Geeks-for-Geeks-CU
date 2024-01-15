@@ -13,26 +13,36 @@ const Login = () => {
   const apiKey = "http://localhost:8000/api/v1";
   const {user,setUser,login} = useContext(UserContext);
 
-  const handleSubmit = (e) =>{
-     e.preventDefault()
-     axios.post(`${apiKey}/users/login`,{email,password}).then(res=>{
-      console.log(res);
-     })   
-     .catch(error => {
-      // handle login error
-      if (error.response.status === 400) {
-         alert('Invalid login details');
+  const handleSubmit = async(e) =>{
+
+    e.preventDefault();
+    if(!email || !password){
+      alert("Please fill all the fields")
+      return;
+    }
+    axios.post(`${apiKey}/users/login`, {
+      email,
+      password,
+    })
+    .then(response => {
+      if (response.data.success) {
+        // If the login is successful, navigate to the "/home" page
+        navigate('/');
+        setUser(true);
+        login();
       } else {
-         console.log('Error:', error);
+        // If the login is unsuccessful, show an alert
+        alert('Invalid email or password');
       }
-     });
+    })
+    .catch(error => {
+      console.log(error);
+      alert('An error occurred while logging in');
+    });
+  
+}  
 
-     setUser(true);
-     login();
-     navigate("/");
-
-  }
-
+ 
 
   return (
     <Layout>

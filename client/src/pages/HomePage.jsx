@@ -19,16 +19,26 @@ gsap.registerPlugin(ScrollTrigger); // Register the ScrollTrigger plugin
 
 const HomePage = () => {
   const [blogs, setBlogs] = useState([]);
-  
-
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     // fetch the blogs from the api
     axios.get("http://localhost:8000/api/v1/blog/all")
       .then(response => {
-        // JSON data from the backend
+         // JSON data from the backend
          // Update the blogs state with the fetched data
          setBlogs(response.data.all)
+      })
+      .catch(error => {
+        console.error(error); // Handle any errors
+      });
+
+      axios.get("http://localhost:8000/api/v1/users/all")
+      .then(response => {
+         // JSON data from the backend
+         // Update the users state with the fetched data
+          // console.log(response.data.users);
+         setUsers(response.data.users)
       })
       .catch(error => {
         console.error(error); // Handle any errors
@@ -61,6 +71,8 @@ const HomePage = () => {
           {/* Blogs */}
           <div className="text-left my-5 flex flex-col gap-5 dark:text-black">
             {blogs.map((blog) => {
+              const user = users.find((user) => user.id === blog.username);
+              const userName = user ? user.name : "Unknown User";
               return (
                 <div
                   key={blog.id}
@@ -68,7 +80,7 @@ const HomePage = () => {
                   className="px-2 py-2 bg-white rounded-md shadow-sm md:p-5 dark:bg-custom-grey"
                 >
                   <h2 className="text-[darkBlue] font-semibold text-base">
-                    {blog.user}
+                    {userName}
                   </h2>
                   <p className="px-4 text-sm">{blog.description}</p>
                 </div>
