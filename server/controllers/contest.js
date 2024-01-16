@@ -14,7 +14,7 @@ export const CONTEST = async (req, res, next) => {
 
     res.status(201).json({
       success: true,
-      message: "Task added Successfully",
+      message: "Contest added Successfully",
     });
   } catch (error) {
     next(error);
@@ -29,7 +29,7 @@ export const displayContests = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      contests,
+      all: contests,
     });
   } catch (error) {
     next(error);

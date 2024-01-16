@@ -60,3 +60,39 @@ export const logout = (req, res) => {
       user: req.user,
     });
 };
+
+export const getInfoById = (req,res) =>{
+
+  const id = req.params.id;
+  User.findById(id)
+  .then(data => {
+    if (!data) {
+      res.status(404).send({ message: "Not found user with id" + id });
+    } else {
+      const { _id, name, email } = data;
+      res.status(200).json({ success: true, user: { _id, name, email } });
+    }
+  })
+  .catch(err => {
+    res
+    .status(500)
+    .send({message: "Error retrieving user with id" + id});
+  });
+
+}
+
+export const getAll = (req,res) =>{
+  User.find()
+  .then(data => {
+    const users = data.map(user => {
+      const { _id, name, email } = user;
+      return { _id, name, email };
+    });
+    res.status(200).json({ success: true, users });
+  })
+  .catch(err => {
+    res
+    .status(500)
+    .send({message: err.message || "Error retrieving users"});
+  });
+}

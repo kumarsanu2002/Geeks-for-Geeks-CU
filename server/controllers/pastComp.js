@@ -12,7 +12,7 @@ export const pastCompt = async (req, res, next) => {
 
     res.status(201).json({
       success: true,
-      message: "Task added Successfully",
+      message: "Competition image added Successfully",
     });
   } catch (error) {
     next(error);
@@ -27,7 +27,7 @@ export const getpastCompt = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      pastcomp,
+      all: pastcomp,
     });
   } catch (error) {
     next(error);
