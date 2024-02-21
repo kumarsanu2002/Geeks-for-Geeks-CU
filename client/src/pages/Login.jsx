@@ -2,29 +2,47 @@ import Layout from "../components/layouts/Layout";
 import Register from "../assets/authentication-image/Register.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useState } from "react";
-
+import { useContext, useState } from "react";
+import { UserContext } from "../contexts/userContext";
 
 const Login = () => {
 
   const[email , setEmail] = useState()
   const[password , setPassword] = useState()
   const navigate = useNavigate()
+  const apiKey = "http://localhost:8000/api/v1";
+  const {user,setUser,login} = useContext(UserContext);
 
-  const handleSubmit = (e) =>{
-     e.preventDefault()
-     axios.post('http://localhost:8000/login',{email,password})
-    .then(result => {console.log(result)
-      if(result.data === "Success"){
-        navigate('/home') //using navigate we will directly navigate to login page after registration
-      } 
-      else{
-        alert("Need To Register First OR Wrong Password")
+  const handleSubmit = async(e) =>{
+
+    e.preventDefault();
+    if(!email || !password){
+      alert("Please fill all the fields")
+      return;
+    }
+    axios.post(`${apiKey}/users/login`, {
+      email,
+      password,
+    })
+    .then(response => {
+      if (response.data.success) {
+        // If the login is successful, navigate to the "/home" page
+        navigate('/');
+        setUser(true);
+        login();
+      } else {
+        // If the login is unsuccessful, show an alert
+        alert('Invalid email or password');
       }
-    }) 
-    .catch(err=>console.log(err))
-  }
+    })
+    .catch(error => {
+      console.log(error);
+      alert('An error occurred while logging in');
+    });
+  
+}  
 
+ 
 
   return (
     <Layout>

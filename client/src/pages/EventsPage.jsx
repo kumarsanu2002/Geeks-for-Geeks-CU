@@ -1,48 +1,54 @@
-import {useEffect, useRef, useState } from "react";
+import {useContext, useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import Slider from "../components/Slider";
 import Layout from "../components/layouts/Layout";
 import Carousel from "../components/Carousel";
 import axios from "axios";
 import Event from "../assets/images/past_events.png";
+import { UserContext } from "../contexts/userContext";
 
 const EventsPage = () => {
   // Delete this data and pass the props in this page of the past events. //
-  const [events, setEvents] = useState([
-    {
-      id: 1,
-      title: "First Offline Meet",
-      content:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eaque, tenetur! Et repellendus eveniet, dolor dolores accusantium minus ipsum in, quisquam natus quae sequi repellat? Eum quia, numquam id officiis accusamus repellat provident. Soluta cum assumenda sint rerum facilis illo laboriosam accusantium possimus odio dignissimos pariatur dolore a fuga natus, repellendus eius doloremque dolorum ipsam quae corrupti deleniti. Magni, at impedit?",
-      image: Event,
-    },
-    {
-      id: 2,
-      title: "Orientation Session",
-      content:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eaque, tenetur! Et repellendus eveniet, dolor dolores accusantium minus ipsum in, quisquam natus quae sequi repellat? Eum quia, numquam id officiis accusamus repellat provident. Soluta cum assumenda sint rerum facilis illo laboriosam accusantium possimus odio dignissimos pariatur dolore a fuga natus, repellendus eius doloremque dolorum ipsam quae corrupti deleniti. Magni, at impedit?",
-      image: Event,
-    },
-    {
-      id: 3,
-      title: "Example session",
-      content:
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eaque, tenetur! Et repellendus eveniet, dolor dolores accusantium minus ipsum in, quisquam natus quae sequi repellat? Eum quia, numquam id officiis accusamus repellat provident. Soluta cum assumenda sint rerum facilis illo laboriosam accusantium possimus odio dignissimos pariatur dolore a fuga natus, repellendus eius doloremque dolorum ipsam quae corrupti deleniti. Magni, at impedit?",
-      image: Event,
-    },
-  ]);
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    // fetch the blogs from the api
+    axios.get("http://localhost:8000/api/v1/pastEvents/all")
+      .then(response => {
+        // JSON data from the backend
+         // Update the blogs state with the fetched data
+        setEvents(response.data.all)
+      })
+      .catch(error => {
+        console.error(error); // Handle any errors
+      });
+  }, []);
 
 
 
  // Suggestion part
  const[suggestion , setSuggestion] = useState("")
+  const {setUser, user} = useContext(UserContext);
 
  const handleSubmit = (e) =>{
      e.preventDefault()
-    alert("Your suggestion has been submitted.")
-    axios.post('http://localhost:8000/profile',{suggestion:suggestion})
-   .then(result => console.log(result)) 
-   .catch(err=>console.log(err))
+
+    if(!user)
+    {
+      alert("Please login first to submit your suggestion!")
+      return;
+    }
+
+     if(!suggestion){
+      alert("Can not submit blank suggestion!")  
+      return;
+    }
+
+     axios.post('https://gfgcu.onrender.com/api/v1/task/new',suggestion)
+     .then(result => console.log(result)) 
+     .catch(err=>console.log(err))
+
+     alert("Your suggestion has been submitted.")
  }
 
 
@@ -65,7 +71,7 @@ const EventsPage = () => {
             Past Events
           </h1>
           <div className="flex flex-col relative justify-center">
-            {events.map((event, index) => {
+            {events.slice(0,3).map((event, index) => {
               const isOdd = index % 2 !== 0;
 
               return (
@@ -82,12 +88,12 @@ const EventsPage = () => {
                       {event.title}
                     </h3>
                     <p className="text-sm sm:text-lg dark:text-black text-justify cursor-pointer">
-                      {event.content}
+                      {event.description}
                     </p>
                   </div>
 
                   <div className="slider flex m-auto w-full sm:w-1/2 h-1/2 relative">
-                    <Carousel />
+                    <img src={event.img_url} alt="event image" className="px-4 rounded-md"/>
                   </div>
                 </div>
               );
@@ -103,18 +109,6 @@ const EventsPage = () => {
             </h1>
             <div className="flex my-4 flex-col">
               <p>Send your feedback regarding the events you have attended.</p>
-
-              <div className="my-6">
-                <p className="font-bold text-lg my-4">Applicable Roles:</p>
-
-                <ul>
-                  <li>1. Code Rusher</li>
-                  <li>2. Event Manager</li>
-                  <li>3. Content Writer</li>
-                </ul>
-              </div>
-
-
 
               <form onSubmit={handleSubmit} >
                 <div className="flex flex-row">

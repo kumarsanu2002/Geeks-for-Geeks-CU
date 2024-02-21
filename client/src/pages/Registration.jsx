@@ -15,13 +15,27 @@ const Registration = () => {
   const navigate = useNavigate();
 
   const handleSubmit = (e) =>{
-     e.preventDefault()
-     axios.post('http://localhost:8000/regi',{name,email,password,confirmPassword})
-    .then(result => {console.log(result)
-         navigate('/') //using navigate we will directly navigate to login page after registration
-    }) 
-    .catch(err=>console.log(err))
+    e.preventDefault();
+    if(password !== confirmPassword)
+    {
+      alert("Password Doesn't Match!!");
+      return;
+    }
+    axios.post('https://gfgcu.onrender.com/api/v1/users/new',{name,email,password})
+      .then(result => {
+        console.log(result);
+        alert("Successfully created the account, Now Login")
+        navigate('/login'); //using navigate we will directly navigate to login page after registration
+      }) 
+      .catch(err => {
+        if (err.response && err.response.status === 400) {
+          alert("User already exists with this email. Try Logging In");
+        } else {
+          console.log(err);
+        }
+      });
   }
+  
   return (
     <Layout>
       <div className=" dark:text-slate-100 relative text-black h-full w-full overflow-y-auto p-3 flex sm:flex-row flex-col">
@@ -94,10 +108,10 @@ const Registration = () => {
             </div>
 
             <div className=" p-3 flex items-center gap-2 sm:flex-row flex-col justify-between">
-              <button className="bg-gfg-green my-3 text-base sm:text-lg  text-white rounded-md px-5 py-2 sm:px-4 sm:py-2 lg:px-5 lg:py-2"  >
+              <button className="bg-gfg-green my-3 text-base sm:text-lg  text-white rounded-md px-5 py-2 sm:px-4 sm:py-2 lg:px-5 lg:py-2"  onClick={handleSubmit}>
                 Register Me
               </button>
-              <Link to="/" className="text-sm mx-4">
+              <Link to="/login" className="text-sm mx-4">
                 Already a user?{" "}
                 <span className="font-heading underline text-sm mx-1 font-semibold text-blue-500">
                   Sign In
